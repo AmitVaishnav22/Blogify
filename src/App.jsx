@@ -29,7 +29,7 @@ function App() {
       <div className='w-full'>
         <Header />
         <main className='text-center flex-grow'>
-        TODO:  <Outlet />
+          <Outlet />
         </main>
         <Footer />
       </div>
