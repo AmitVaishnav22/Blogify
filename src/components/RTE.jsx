@@ -15,7 +15,7 @@ function RTE({name,control,label,defaultvalue=""}){
                 initialValue={defaultvalue}
                 height={500}
                 menubar={true}
-                readonly={false}
+                //readonly={false}
                 plugins={[
                 "image",
                 "advlist",
