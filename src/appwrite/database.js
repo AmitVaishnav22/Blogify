@@ -21,8 +21,7 @@ export class Service{
                 config.appwriteCollectionId,
                 ID.unique(),
                 {
-                    title,
-                    slug,
+                    title,   
                     content,
                     featuredImg,
                     status,
