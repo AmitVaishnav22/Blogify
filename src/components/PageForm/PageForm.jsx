@@ -2,8 +2,9 @@ import React, { useCallback ,useState,useEffect} from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
 import service from "../../appwrite/database";
+import authService from "../../appwrite/auth";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function PostForm({ post }) {
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -17,6 +18,11 @@ export default function PostForm({ post }) {
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
     //const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    
+
+
+
     const submit = async (data) => {
         if (post) {
             const file = data.image[0] ? await service.uploadFile(data.image[0]) : null;

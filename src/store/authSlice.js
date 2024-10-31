@@ -1,8 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice ,createAsyncThunk} from "@reduxjs/toolkit";
+import authService from "../appwrite/auth";
 
 const initialState={
     status:false,
-    userData:null
+    userData:null,
 }
 
 const authSlice=createSlice({
@@ -16,9 +17,12 @@ const authSlice=createSlice({
         logout:(state)=>{
             state.status=false
             state.userData=null
-        }
-    }
+        },
+    
+    },
 })
 export const {login,logout}=authSlice.actions;
 
-export default authSlice.reducer;
+export default authSlice.reducer;   
+
+

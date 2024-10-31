@@ -12,23 +12,23 @@ function Login(){
     const {register,handleSubmit}=useForm()
     const [error,setError]=useState("")
 
-    const login=async(data)=>{
+    const login = async(data) => {
         setError("")
         try {
-            const session=await authService.login(data)
-            if (session){
-                const useData=await authService.getCurrUser()
-                if (useData){
-                    dispatch(authLogin(useData))
-                }
+            const session = await authService.login(data)
+            if (session) {
+                const userData = await authService.getCurrUser()
+                if(userData){
+                    dispatch(authLogin({userData}));
+                    
+                } 
                 navigate("/")
+                
             }
-            
         } catch (error) {
             setError(error.message)
         }
     }
-
     return (
         <div className='flex items-center justify-center h-screen w-full bg-black'>
             <div className="mx-auto w-full max-w-lg bg-black/80 rounded-xl p-8 shadow-lg border border-gray-700">
