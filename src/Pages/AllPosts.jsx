@@ -2,22 +2,23 @@ import React, { useEffect, useState } from "react";
 import { Container,PostCard } from "../components";
 import service from "../appwrite/database";
 
+
 function AllPosts(){
     const [posts,setPosts]=useState([])
-    const userId = useSelector((state) => state.auth.userData?.$id)
-
-    useEffect(() => {
-        // Ensure `getPosts` is called only when `userId` is defined
-        if (userId !== undefined) {
-            service.getPosts(userId).then((response) => {
-                if (response && response.documents) {
-                    setPosts(response.documents);
-                }
-            }).catch((error) => {
-                console.error("Failed to fetch posts:", error);
-            });
-        }
-    }, [userId]);
+    useEffect(()=>{
+        service.getPosts([]).then((posts) => {
+            if (posts) {
+                setPosts(posts.documents);
+            }
+        }).catch((error) => {
+            console.error("Error fetching posts:", error);
+        });
+    },[])
+    // service.getPosts([]).then((posts)=>{
+    //     if(posts){
+    //         setPosts(posts.documents)
+    //     }
+    // })
 
     return (
         <div className='w-full py-8'>

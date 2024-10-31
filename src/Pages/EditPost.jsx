@@ -6,6 +6,7 @@ function EditPost(){
     const [posts,setPosts]=useState(null)
     const {slug}=useParams()
     const navigate=useNavigate()
+    console.log("edit")
     useEffect(()=>{
         if(slug){
             service.getPost(slug).then((post)=>{

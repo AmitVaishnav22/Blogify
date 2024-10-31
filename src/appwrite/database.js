@@ -75,19 +75,17 @@ export class Service{
                 slug,
             )
         } catch (error) {
+            console.log("Appwrite serive :: getPost :: error", error);
             return null;
         }
     }
 
-    async getPosts(userId,queries = [Query.equal("status", "active")]){
+    async getPosts(queries = [Query.equal("status", "active")]){
         try {
-            const queryList = userId 
-            ? [...queries, Query.equal("userId", userId)] 
-            : queries;
             return await this.databases.listDocuments(
             config.appwriteDataBaseId,
             config.appwriteCollectionId,
-            queryList
+            queries,
 
             )
         } catch (error) {
@@ -105,7 +103,6 @@ export class Service{
                 file
             )
         } catch (error) {
-            throw error;
             return false
         }
     }
