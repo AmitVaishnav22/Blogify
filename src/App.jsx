@@ -22,20 +22,17 @@ function App() {
     })
     .finally(()=>setLoading(false))
   },[])
-  
-
-  return !loading ? (
+  return (
     <div className='min-h-screen flex flex-col content-between bg-black'>
       <div className='w-full'>
         <Header />
-        <main className='text-center flex-grow'>
+        <main className='text-center flex-grow h-full'>
           <Outlet />
         </main>
-        <Footer />
+        <Footer className="Sticky-bottom"/>
       </div>
     </div>
-  ) : null
-}
+  )}
 
 export default App
 

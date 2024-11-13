@@ -1,10 +1,10 @@
-import React, { useCallback ,useState,useEffect} from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
+import Loader from "../Loader";
 import service from "../../appwrite/database";
-import authService from "../../appwrite/auth";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function PostForm({ post }) {
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -17,40 +17,43 @@ export default function PostForm({ post }) {
     });
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
-    //const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-    
-
-
+    const [loading, setLoading] = useState(false); 
 
     const submit = async (data) => {
-        if (post) {
-            const file = data.image[0] ? await service.uploadFile(data.image[0]) : null;
+        setLoading(true); 
 
-            if (file) {
-                service.deleteFile(post.featuredImg);
-            }
+        try {
+            if (post) {
+                const file = data.image[0] ? await service.uploadFile(data.image[0]) : null;
+                if (file) {
+                    service.deleteFile(post.featuredImg);
+                }
 
-            const dbPost = await service.updatePost(post.$id, {
-                ...data,
-                featuredImg: file ? file.$id : undefined,
-            });
-
-            if (dbPost) {
-                navigate(`/post/${dbPost.$id}`);
-            }
-        } else {
-            const file = await service.uploadFile(data.image[0]);
-
-            if (file) {
-                const fileId = file.$id;
-                data.featuredImg = fileId;
-                const dbPost = await service.createPost({ ...data, userId: userData.$id });
+                const dbPost = await service.updatePost(post.$id, {
+                    ...data,
+                    featuredImg: file ? file.$id : undefined,
+                });
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
                 }
+            } else {
+                const file = await service.uploadFile(data.image[0]);
+
+                if (file) {
+                    const fileId = file.$id;
+                    data.featuredImg = fileId;
+                    const dbPost = await service.createPost({ ...data, userId: userData.$id });
+
+                    if (dbPost) {
+                        navigate(`/post/${dbPost.$id}`);
+                    }
+                }
             }
+        } catch (error) {
+            console.error("Error submitting post:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -65,7 +68,7 @@ export default function PostForm({ post }) {
         return "";
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const subscription = watch((value, { name }) => {
             if (name === "title") {
                 setValue("slug", slugTransform(value.title), { shouldValidate: true });
@@ -118,8 +121,12 @@ export default function PostForm({ post }) {
                     className="mb-4"
                     {...register("status", { required: true })}
                 />
-                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
-                    {post ? "Update" : "Submit"}
+                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full" loading={loading}>
+                    {loading ? (
+                        <Loader /> 
+                    ) : (
+                        post ? "Update" : "Submit"
+                    )}
                 </Button>
             </div>
         </form>

@@ -1,10 +1,8 @@
-import React from "react";
-import {Login} from "../components/index"
-
+import React, { useEffect, useState } from "react";
 
 function LoginComponent(){
     return(
-        <div className="py-8">
+        <div>
             <Login/>
         </div>
     )

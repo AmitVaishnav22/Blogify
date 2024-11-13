@@ -4,7 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import { Provider} from 'react-redux'
 import store from './store/store.js'
-import { Login,Protected } from './components/index.js'
+import { Login,Protected, YourPosts } from './components/index.js'
 import AddPost from "./Pages/AddPost.jsx"
 import SignUp from "./Pages/SignUp.jsx"
 import Post from './Pages/Post.jsx'
@@ -12,6 +12,7 @@ import Home from './Pages/Home.jsx'
 import AllPosts from './Pages/AllPosts.jsx'
 import EditPost from './Pages/EditPost.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Drafts from './Pages/Drafts.jsx'
 
 const router=createBrowserRouter([
   {
@@ -44,6 +45,24 @@ const router=createBrowserRouter([
           <Protected authentication={true}>
             {" "}
             <AllPosts/>
+          </Protected>
+        ),
+      },
+      {
+        path:"/your-posts",
+        element:(
+          <Protected authentication={true}>
+            {" "}
+            <YourPosts/>
+          </Protected>
+        ),
+      },
+      {
+        path:"drafts",
+        element:(
+          <Protected authentication={true}>
+            {""}
+            <Drafts/>
           </Protected>
         ),
       },

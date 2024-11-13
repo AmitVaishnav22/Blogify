@@ -12,6 +12,9 @@ import Input from "./Input"
 import PostCard from "./PostCard"
 import Protected from "./AuthLayout"
 import PostForm from "../components/PageForm/PageForm"
+import YourPosts from "../Pages/YourPosts";
+import Loader from "./Loader";
+
 export{
     Header,
     Footer,
@@ -26,5 +29,7 @@ export{
     PostCard,
     Protected,
     PostForm,
+    YourPosts,
+    Loader,
     Select
 }

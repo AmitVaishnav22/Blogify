@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Container,PostCard } from "../components";
+import { Container,PostCard} from "../components";
 import service from "../appwrite/database";
-
+import { Query } from "appwrite";
 
 function AllPosts(){
     const [posts,setPosts]=useState([])
     useEffect(()=>{
-        service.getPosts([]).then((posts) => {
+        service.getPosts().then((posts) => {
             if (posts) {
                 setPosts(posts.documents);
             }
@@ -14,11 +14,6 @@ function AllPosts(){
             console.error("Error fetching posts:", error);
         });
     },[])
-    // service.getPosts([]).then((posts)=>{
-    //     if(posts){
-    //         setPosts(posts.documents)
-    //     }
-    // })
 
     return (
         <div className='w-full py-8'>
