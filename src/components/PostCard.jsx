@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import service from "../appwrite/database";
 import { Link } from "react-router-dom";
 import authService from "../appwrite/auth";
+import {formatDistanceToNow,parse} from "date-fns"
 
-function PostCard({ $id, title, featuredImg ,userId}) {
+function PostCard({ $id, title, featuredImg ,userId,}) {
   const [user,setUser]=useState(null)
+  
   useEffect(()=>{
     authService.getCurrUser().then((user)=>{
       if(user){
@@ -15,6 +17,14 @@ function PostCard({ $id, title, featuredImg ,userId}) {
       console.log(error)
     })
   })
+
+  // useEffect(()=>{
+  //   service.getUserDocs(userId).then((user)=>{
+  //     if(user){
+  //       setauthor(user.name)
+  //     }
+  //   })
+  // },[userId])
   const isUserPost=userId===user
   return (
     <>
@@ -36,3 +46,20 @@ function PostCard({ $id, title, featuredImg ,userId}) {
 }
 
 export default PostCard;
+
+
+
+
+{/* {isUpdated?(
+        <>
+        <span className="font-semibold">updated :</span>
+        <span  className="font-semibold">{formatDistanceToNow(updatedDate,{addSuffix:true})}</span>
+        </>
+
+      ):(
+        <>
+        <span className="font-semibold">uploaded on :</span>
+        <span  className="font-semibold">{formatDistanceToNow(createdDate,{addSuffix:true})}</span>
+        </>
+      )} */}
+

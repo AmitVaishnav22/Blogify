@@ -9,7 +9,7 @@ function YourPosts(){
     const [userId,setUserId]=useState(null)
     useEffect(() => {
         authService.getCurrUser().then((currUser) => {
-            console.log("Current User:", currUser);
+            //console.log("Current User:", currUser);
             if (currUser) {
                 setUserId(currUser.$id);
             }

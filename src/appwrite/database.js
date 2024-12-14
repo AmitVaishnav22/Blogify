@@ -1,5 +1,7 @@
+import { createNextState } from "@reduxjs/toolkit";
 import config from "../config/config";
-import { Client,Databases,Storage,ID,Query } from "appwrite";
+import { Client,Databases,Storage,ID,Query} from "appwrite";
+import authService from "./auth";
 
 
 export class Service{
@@ -13,7 +15,8 @@ export class Service{
         this.databases=new Databases(this.client)
         this.storage=new Storage(this.client)
     }
-
+    
+      
     async createPost({title,slug,content,featuredImg,status,userId}){
         try {
             return await this.databases.createDocument(
@@ -23,10 +26,10 @@ export class Service{
                 {
                     title,   
                     content,
+                    //slug
                     featuredImg,
                     status,
-                    userId
-
+                    userId,
                 }
             )
         } catch (error) {
@@ -82,7 +85,7 @@ export class Service{
 
     async getPosts(queries = [Query.equal("status", "active")]){
         try {
-            console.log("Querying with:", queries);
+            //console.log("Querying with:", queries);
             return await this.databases.listDocuments(
             config.appwriteDataBaseId,
             config.appwriteCollectionId,
