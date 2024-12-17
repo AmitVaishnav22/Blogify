@@ -156,6 +156,14 @@ export default function Post() {
                 </div>
                 <div className="browser-css text-white">
                     {parse(post.content)}
+                    <br/>
+                    <span className="font-semibold text-gray-400 inline-block w-full text-right">
+                        LastUpdated: {new Date(post.$updatedAt).toLocaleString()}
+                    </span>
+                    <br/>
+                    <span className="font-semibold text-gray-400 inline-block w-full text-right">
+                        Created At: {new Date(post.$createdAt).toLocaleString()}
+                    </span>
                 </div>
             </Container>
             {showAlert && (
