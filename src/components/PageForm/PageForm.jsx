@@ -5,6 +5,8 @@ import Loader from "../Loader";
 import service from "../../appwrite/database";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import {addPost,updatePost} from "../../store/postSlice.js"
 
 export default function PostForm({ post }) {
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -17,6 +19,7 @@ export default function PostForm({ post }) {
         },
     });
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const userData = useSelector((state) => state.auth.userData);
     const [loading, setLoading] = useState(false); 
 
@@ -36,6 +39,7 @@ export default function PostForm({ post }) {
                 });
 
                 if (dbPost) {
+                    dispatch(updatePost({ ...dbPost, id: post.$id }))
                     navigate(`/post/${dbPost.$id}`);
                 }
             } else {
@@ -47,6 +51,7 @@ export default function PostForm({ post }) {
                     const dbPost = await service.createPost({ ...data, userId: userData.$id });
 
                     if (dbPost) {
+                        dispatch(addPost(dbPost));
                         navigate(`/post/${dbPost.$id}`);
                     }
                 }
@@ -133,5 +138,4 @@ export default function PostForm({ post }) {
         </form>
     );
 }
-
 

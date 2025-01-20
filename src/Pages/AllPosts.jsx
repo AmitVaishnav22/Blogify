@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Container,PostCard} from "../components";
 import service from "../appwrite/database";
-import { Query } from "appwrite";
+import SearchBar from "../components/search";
+import {  setPosts} from "../../src/store/postSlice.js"
+import { useDispatch } from "react-redux";
 
 function AllPosts(){
-    const [posts,setPosts]=useState([])
+    const [posts,setPostss]=useState([])
+    const dispatch=useDispatch()
     useEffect(()=>{
         service.getPosts().then((posts) => {
             if (posts) {
-                setPosts(posts.documents);
+                // console.log(posts)
+                setPostss(posts.documents)
+                dispatch(setPosts(posts.documents));
             }
         }).catch((error) => {
             console.error("Error fetching posts:", error);
         });
     },[])
-
     return (
+        <>
+        <SearchBar/>
         <div className='w-full py-8'>
             <Container>
                 <div className='flex flex-wrap'>
@@ -27,7 +33,7 @@ function AllPosts(){
                 </div>
             </Container>
         </div>
-        
+    </>
     )
 }
 
