@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container,PostCard} from "../components";
 import service from "../appwrite/database";
-import SearchBar from "../components/search";
+import SearchBar from "../components/Search.jsx"
 import {  setPosts} from "../../src/store/postSlice.js"
 import { useDispatch } from "react-redux";
 
