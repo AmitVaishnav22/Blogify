@@ -20,42 +20,36 @@ const SearchBar = () => {
     };
 
     return (
-        <div>
+        <div className="p-4 l-0 w-full max-w-md mx-auto">
             {/* Search Input */}
             <input
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)} 
+                onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search posts..."
-                style={{ padding: "10px", width: "100%", marginBottom: "10px" }}
+                className="w-full text-white p-2 mb-4 rounded-md bg-black text-purple-400 placeholder-purple-500 border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
 
             {/* Real-Time Search Results */}
             {query && (
-                <div>
+                <div className="bg-black rounded-md shadow-lg">
                     {filteredPosts.length > 0 ? (
                         filteredPosts.map((post) => (
                             <div
                                 key={post.id}
-                                style={{
-                                    padding: "8px",
-                                    borderBottom: "1px solid #ddd",
-                                    cursor: "pointer",
-                                    
-                                }}
-                                className="text-white"
+                                className="p-2 border-b border-purple-700 text-purple-400 hover:bg-purple-800 hover:text-white cursor-pointer"
                                 onClick={() => handleTitleClick(post.$id)} // Navigate on click
                             >
                                 {post.title}
                             </div>
                         ))
                     ) : (
-                        <p className="text-white ">No posts found</p>
+                        <p className="p-2 text-purple-500">No posts found</p>
                     )}
                 </div>
             )}
-
         </div>
+
     );
 };
 

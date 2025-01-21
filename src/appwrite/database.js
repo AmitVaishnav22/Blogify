@@ -139,6 +139,114 @@ export class Service{
         )
     }
 
+    async toggleLike(postId, userId) {
+        try {
+          
+            const post = await this.databases.getDocument(
+                config.appwriteDataBaseId,
+                config.appwriteCollectionId,
+                postId
+            );
+
+            //console.log(post)
+            const userLikes = JSON.parse(post.userLikes || "[]");
+            const hasLiked = userLikes.includes(userId);
+    
+            const updatedLikes = hasLiked ? post.likes - 1 : post.likes + 1;
+            const updatedUserLikes = hasLiked
+                ? userLikes.filter((id) => id !== userId)
+                : [...userLikes, userId];
+    
+          
+            const updatedUserLikesString = JSON.stringify(updatedUserLikes);
+    
+            return await this.databases.updateDocument(
+                config.appwriteDataBaseId,
+                config.appwriteCollectionId,
+                postId,
+                {
+                    likes: updatedLikes,
+                    userLikes: updatedUserLikesString,
+                }
+            );
+        } catch (error) {
+            console.error("Error toggling like:", error);
+            throw error;
+        }
+    }
+    async createComment(postId, userId, commentText,name) {
+        try {
+            const post = await this.databases.getDocument(
+                config.appwriteDataBaseId,
+                config.appwriteCollectionId,
+                postId
+            );
+    
+            // Parse the existing comments
+            const updatedComments = JSON.parse(post.comments || "[]");
+    
+            // Create a new comment object
+            const newComment = {
+                id: ID.unique(), // Unique ID for the comment
+                userId,
+                name,
+                commentText,
+                createdAt: new Date().toISOString(),
+            };
+
+            // console.log(newComment);
+    
+            // Add the new comment to the array
+            updatedComments.push(newComment);
+    
+            // Convert back to string for storage
+            const updatedCommentsString = JSON.stringify(updatedComments);
+    
+            // Update the post document with the new comments
+            return await this.databases.updateDocument(
+                config.appwriteDataBaseId,
+                config.appwriteCollectionId,
+                postId,
+                {
+                    comments: updatedCommentsString,
+                }
+            );
+        } catch (error) {
+            console.error("Error creating comment:", error);
+            throw error;
+        }
+    }
+
+    async deleteComment(postId, commentId) {
+        try {
+            
+            const post = await this.databases.getDocument(
+                config.appwriteDataBaseId,
+                config.appwriteCollectionId,
+                postId
+            );
+    
+            
+            const updatedComments = (post.comments || []).filter(
+                (comment) => comment.id !== commentId
+            );
+    
+            return await this.databases.updateDocument(
+                config.appwriteDataBaseId,
+                config.appwriteCollectionId,
+                postId,
+                {
+                    comments: updatedComments,
+                }
+            );
+        } catch (error) {
+            console.error("Error deleting comment:", error);
+            throw error;
+        }
+    }
+    
+
+
 }
 
 const service=new Service();

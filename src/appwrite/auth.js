@@ -20,7 +20,6 @@ export class AuthService{
                 return this.login({email,password})
             } else {
                 return userAccount
-                
             }
         } catch (error) {
             throw error;

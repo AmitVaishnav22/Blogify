@@ -7,6 +7,9 @@ import { useSelector } from "react-redux";
 import Alert from "../components/Alert";
 import { useDispatch } from "react-redux";
 import { removePost } from "../store/postSlice.js";
+import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { FaCommentDots } from "react-icons/fa";
+
 
 export default function Post() {
     const [post, setPost] = useState(null);
@@ -15,7 +18,10 @@ export default function Post() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const userData = useSelector((state) => state.auth.userData);
+    //console.log(userData.name);
     const [isAuthor,setIsAuthor]=useState(false)
+    const [loading, setLoading] = useState(false);
+    const [newComment, setNewComment] = useState("");
 
     useEffect(() => {
         if (slug) {
@@ -56,10 +62,38 @@ export default function Post() {
         setShowAlert(false);
     };
 
+    const handleToggleLike=async()=>{
+        try {
+            setLoading(true)
+            const updatedPost= await service.toggleLike(post.$id,userData.$id)
+            setPost(updatedPost)
+
+        } catch (error) {
+            console.log("In like toggle",error)
+        }
+        finally{
+            setLoading(false)
+        }
+    }
+    const handleAddComment=async()=>{
+        try {
+            setLoading(true)
+            const updatedPost= await service.createComment(post.$id,userData.$id,newComment,userData.name)
+            setPost(updatedPost)
+            setNewComment("")
+        } catch (error) {
+            console.log("In add comment",error)
+        }
+        finally{
+            setLoading(false)
+        }
+    }
+
     return post ? (
         <div className="py-8">
             <Container>
                 <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
+                
                     <img
                         src={service.getFilePreview(post.featuredImg)}
                         alt={post.title}
@@ -83,13 +117,62 @@ export default function Post() {
                     {parse(post.content)}
                     <br/>
                     <span className="font-semibold text-gray-400 inline-block w-full text-right">
-                        LastUpdated: {new Date(post.$updatedAt).toLocaleString()}
+                        last updated on : {new Date(post.$updatedAt).toLocaleString()}
                     </span>
                     <br/>
                     <span className="font-semibold text-gray-400 inline-block w-full text-right">
-                        Created At: {new Date(post.$createdAt).toLocaleString()}
+                        uploaded on : {new Date(post.$createdAt).toLocaleString()}
                     </span>
                 </div>
+            {/* Like and Comments Section */}
+            <div className="flex items-center justify-between mt-4">
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={handleToggleLike}
+                        className="flex items-center text-purple-400 hover:text-purple-600"
+                        disabled={loading}
+                    >
+                            <AiOutlineLike size={24} />
+                        <span className="ml-2">{post.likes || 0} Likes</span>
+                    </button>
+
+                    <div className="flex items-center text-gray-400">
+                        <FaCommentDots size={24} />
+                        <span className="ml-2">{post.comments?.length || 0} Comments</span>
+                    </div>
+                </div>
+            </div>
+            <div className="mt-6">
+                    <input
+                        type="text"
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        placeholder="Add a comment..."
+                        className="w-full p-2 rounded bg-gray-800 text-gray-300"
+                    />
+                    <button
+                        onClick={handleAddComment}
+                        className="mt-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white"
+                        disabled={loading}
+                    >
+                        Add Comment
+                    </button>
+                </div>
+            {/* Comments List */}
+            {/* <div className="space-y-4 mt-6">
+                {/* Parse comments as an array */}
+                {/* {post.comments && JSON.parse(post.comments).length > 0 ? (
+                    JSON.parse(post.comments).map((comment) => (
+                        <div key={comment.id} className="p-2 rounded bg-gray-800">
+                            <p className="text-gray-300">{comment.commentText}</p>
+                            <small className="text-gray-500">By User {comment.name}</small>
+                        </div>
+                    ))
+                    ) : (
+                        <p className="text-gray-500">No comments yet.</p>
+                    )}
+                </div> */}
+
             </Container>
             {showAlert && (
                 <Alert
