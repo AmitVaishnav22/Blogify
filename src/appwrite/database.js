@@ -174,62 +174,56 @@ export class Service{
             throw error;
         }
     }
-    async createComment(postId, userId, commentText,name) {
+    async createComment(postId, userId, commentText,userName) {
         try {
+            
             const post = await this.databases.getDocument(
                 config.appwriteDataBaseId,
                 config.appwriteCollectionId,
                 postId
             );
     
-            // Parse the existing comments
-            const updatedComments = JSON.parse(post.comments || "[]");
+            const updatedComments = post.comments || []; 
     
-            // Create a new comment object
-            const newComment = {
-                id: ID.unique(), // Unique ID for the comment
+            const newComment = JSON.stringify({
                 userId,
-                name,
-                commentText,
+                userName,
+                content: commentText,
                 createdAt: new Date().toISOString(),
-            };
-
-            // console.log(newComment);
+            });
+            //console.log(newComment);
     
-            // Add the new comment to the array
             updatedComments.push(newComment);
     
-            // Convert back to string for storage
-            const updatedCommentsString = JSON.stringify(updatedComments);
-    
-            // Update the post document with the new comments
-            return await this.databases.updateDocument(
+            const updatedPost = await this.databases.updateDocument(
                 config.appwriteDataBaseId,
                 config.appwriteCollectionId,
                 postId,
                 {
-                    comments: updatedCommentsString,
+                    comments: updatedComments, 
                 }
             );
+    
+            return updatedPost; 
         } catch (error) {
             console.error("Error creating comment:", error);
-            throw error;
+            throw error; 
         }
     }
-
-    async deleteComment(postId, commentId) {
+    
+    async deleteComment(postId, userId, commentId) {
         try {
-            
+
             const post = await this.databases.getDocument(
                 config.appwriteDataBaseId,
                 config.appwriteCollectionId,
                 postId
             );
     
-            
-            const updatedComments = (post.comments || []).filter(
-                (comment) => comment.id !== commentId
-            );
+            const updatedComments = (post.comments || []).filter((commentString) => {
+                const comment = JSON.parse(commentString);
+                return !(comment.id === commentId && comment.userId === userId); 
+            });
     
             return await this.databases.updateDocument(
                 config.appwriteDataBaseId,

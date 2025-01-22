@@ -19,9 +19,12 @@ export default function Post() {
     const dispatch = useDispatch();
     const userData = useSelector((state) => state.auth.userData);
     //console.log(userData.name);
+    //console.log(userName);
     const [isAuthor,setIsAuthor]=useState(false)
     const [loading, setLoading] = useState(false);
+    const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
+
 
     useEffect(() => {
         if (slug) {
@@ -62,6 +65,7 @@ export default function Post() {
         setShowAlert(false);
     };
 
+
     const handleToggleLike=async()=>{
         try {
             setLoading(true)
@@ -88,6 +92,41 @@ export default function Post() {
             setLoading(false)
         }
     }
+
+    useEffect(() => {
+        if (post && Array.isArray(post.comments)) {
+            setComments(post.comments); 
+        } else {
+            setComments([]); // Fallback to an empty array if comments are undefined
+        }
+    }, [post]);
+
+    const handleDeleteComment = async (postId, commentId) => {
+        try {
+
+            await service.deleteComment(postId, userData.$id, commentId);
+    
+            setComments((prevComments) => {
+                const updatedComments = prevComments.filter((commentString) => {
+                    const parsedComment = JSON.parse(commentString);
+                    return parsedComment.$id !== commentId;
+                });
+    
+                setPost((prevPost) => ({
+                    ...prevPost,
+                    comments: updatedComments,
+                }));
+    
+                return updatedComments; 
+            });
+    
+            alert("Comment deleted successfully!");
+        } catch (error) {
+            console.error("Error deleting comment:", error);
+            alert("Failed to delete comment.");
+        }
+    };
+    
 
     return post ? (
         <div className="py-8">
@@ -159,19 +198,37 @@ export default function Post() {
                     </button> 
                 </div>
             {/* Comments List */}
-            {/* <div className="space-y-4 mt-6">
-                {/* Parse comments as an array */}
-                {/* {post.comments && JSON.parse(post.comments).length > 0 ? (
-                    JSON.parse(post.comments).map((comment) => (
-                        <div key={comment.id} className="p-2 rounded bg-gray-800">
-                            <p className="text-gray-300">{comment.commentText}</p>
-                            <small className="text-gray-500">By User {comment.name}</small>
-                        </div>
-                    ))
-                    ) : (
-                        <p className="text-gray-500">No comments yet.</p>
-                    )}
-                </div> */}
+            <div className="space-y-4 mt-6">
+                {comments.length > 0 ? (
+                    comments.map((commentString, index) => {
+                        const parsedComment = JSON.parse(commentString); 
+
+                        return (
+                            <div key={index} className="p-2 rounded bg-gray-800 relative">
+                                <p className="text-gray-300">{parsedComment.content}</p>
+                                <small className="text-gray-500">By {parsedComment.userName}</small>
+
+                                {/* Delete Button for the Comment Owner */}
+                                {parsedComment.userId === userData.$id && (
+                                    <button
+                                        onClick={() => handleDeleteComment(post.$id, parsedComment.id)}
+                                        className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                                        title="Delete Comment"
+                                    >
+                                        ✖
+                                    </button>
+                                )}
+                            </div>
+                        );
+                    })
+                ) : (
+                    <p className="text-gray-500">No comments yet.</p>
+                )}
+            </div>
+
+
+            
+            
 
             </Container>
             {showAlert && (
@@ -184,4 +241,5 @@ export default function Post() {
         </div>
     ) : null;
 }
+
 
