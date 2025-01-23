@@ -149,7 +149,8 @@ export class Service{
             );
 
             //console.log(post)
-            const userLikes = JSON.parse(post.userLikes || "[]");
+            const userLikes = JSON.parse(post.userLikes || "[]");  
+            //console.log(userLikes)
             const hasLiked = userLikes.includes(userId);
     
             const updatedLikes = hasLiked ? post.likes - 1 : post.likes + 1;
@@ -186,6 +187,7 @@ export class Service{
             const updatedComments = post.comments || []; 
     
             const newComment = JSON.stringify({
+                id: ID.unique(),
                 userId,
                 userName,
                 content: commentText,

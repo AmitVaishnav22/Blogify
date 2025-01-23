@@ -109,7 +109,7 @@ export default function Post() {
             setComments((prevComments) => {
                 const updatedComments = prevComments.filter((commentString) => {
                     const parsedComment = JSON.parse(commentString);
-                    return parsedComment.$id !== commentId;
+                    return parsedComment.id !== commentId;
                 });
     
                 setPost((prevPost) => ({
@@ -202,7 +202,7 @@ export default function Post() {
                 {comments.length > 0 ? (
                     comments.map((commentString, index) => {
                         const parsedComment = JSON.parse(commentString); 
-
+                        //console.log(parsedComment)
                         return (
                             <div key={index} className="p-2 rounded bg-gray-800 relative">
                                 <p className="text-gray-300">{parsedComment.content}</p>
