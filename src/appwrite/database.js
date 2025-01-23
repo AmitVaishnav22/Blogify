@@ -17,7 +17,7 @@ export class Service{
     }
     
       
-    async createPost({title,slug,content,featuredImg,status,userId}){
+    async createPost({title,slug,content,featuredImg,status,userId,userName}){
         try {
             return await this.databases.createDocument(
                 config.appwriteDataBaseId,
@@ -26,10 +26,11 @@ export class Service{
                 {
                     title,   
                     content,
-                    //slug
-                    featuredImg,
+                    //slug,
+                    featuredImg, 
                     status,
                     userId,
+                    userName
                 }
             )
         } catch (error) {

@@ -48,12 +48,13 @@ export default function PostForm({ post }) {
                 if (file) {
                     const fileId = file.$id;
                     data.featuredImg = fileId;
-                    const dbPost = await service.createPost({ ...data, userId: userData.$id });
+                    console.log(userData.name)
+                    const dbPost = await service.createPost({ ...data, userId: userData.$id,userName: userData.name });
 
                     if (dbPost) {
                         dispatch(addPost(dbPost));
                         navigate(`/post/${dbPost.$id}`);
-                    }
+                    } 
                 }
             }
         } catch (error) {

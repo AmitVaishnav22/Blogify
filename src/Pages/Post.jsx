@@ -126,7 +126,9 @@ export default function Post() {
             alert("Failed to delete comment.");
         }
     };
-    
+
+    //console.log(post)
+     
 
     return post ? (
         <div className="py-8">
@@ -154,13 +156,11 @@ export default function Post() {
                 </div>
                 <div className="browser-css text-white">
                     {parse(post.content)}
-                    <br/>
-                    <span className="font-semibold text-gray-400 inline-block w-full text-right">
-                        last updated on : {new Date(post.$updatedAt).toLocaleString()}
-                    </span>
-                    <br/>
                     <span className="font-semibold text-gray-400 inline-block w-full text-right">
                         uploaded on : {new Date(post.$createdAt).toLocaleString()}
+                    </span>
+                    <span className="font-semibold text-gray-400 inline-block w-full text-right">
+                        uploaded By : {post.userName} 
                     </span>
                 </div>
             {/* Like and Comments Section */}
