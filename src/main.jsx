@@ -13,6 +13,7 @@ import AllPosts from './Pages/AllPosts.jsx'
 import EditPost from './Pages/EditPost.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Drafts from './Pages/Drafts.jsx'
+import ChatComponent from './components/BlogAI/BlogAI.jsx'
 
 const router=createBrowserRouter([
   {
@@ -87,6 +88,10 @@ const router=createBrowserRouter([
       {
         path:"/post/:slug",
         element:<Post/>
+      },
+      {
+        path:'/blogAI',
+        element:<ChatComponent/>
       }
     ]
 

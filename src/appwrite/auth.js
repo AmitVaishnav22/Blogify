@@ -5,6 +5,7 @@ export class AuthService{
     client=new Client();
     account;
     users;
+    functions;
     constructor(){
         this.client
         .setEndpoint(config.appwriteUrl)
@@ -49,7 +50,7 @@ export class AuthService{
             throw error;
         }
     }
-    
+
 }
 
 const authService=new AuthService()
