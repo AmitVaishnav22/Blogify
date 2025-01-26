@@ -1,10 +1,10 @@
+import config from "../../config/config";
 export default class AiService {
     static async sendPrompt(data) {
       try {
-        const postEndpoint = "https://6793cd8ba24772422647.appwrite.global/api";
+        const postEndpoint = `https://${config.appwriteFunctionId}.appwrite.global/api`;
         const response = await fetch(postEndpoint, {
           method: "POST",
-          
           headers: {
             "Content-Type": "application/json",
           },
@@ -15,7 +15,7 @@ export default class AiService {
           throw new Error(`POST request failed with status ${response.status}`);
         }
   
-        return await response.json();
+        return await response.json(); 
       } catch (error) {
         console.error("Error sending prompt:", error);
         throw error;

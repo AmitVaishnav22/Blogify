@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {addPost,updatePost} from "../../store/postSlice.js"
+import ChatComponent from "../BlogAI/BlogAI.jsx";
 
 export default function PostForm({ post }) {
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -63,6 +64,7 @@ export default function PostForm({ post }) {
             setLoading(false);
         }
     };
+
 
     const slugTransform = useCallback((value) => {
         if (value && typeof value === "string")
@@ -135,6 +137,7 @@ export default function PostForm({ post }) {
                         post ? "Update" : "Submit"
                     )}
                 </Button>
+                <ChatComponent/>
             </div>
         </form>
     );

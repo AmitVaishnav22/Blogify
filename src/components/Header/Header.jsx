@@ -16,6 +16,7 @@ function Header() {
         { name: "Add Post", slug: "/add-post", active: authStatus },
         { name: "Your Posts", slug: "/your-posts", active: authStatus },
         { name: "Drafts", slug: "/drafts", active: authStatus },
+        {name: "BlogAI", slug:"/blogAI",active: authStatus ,isLogo:true }
     ];
 
     const handleNavigation = (slug) => {
@@ -37,14 +38,27 @@ function Header() {
                     <ul className="flex ml-auto">
                         {navItem.map((item) =>
                             item.active ? (
-                                <li key={item.name}>
-                                    <button
-                                        onClick={() => handleNavigation(item.slug)}  
-                                        className="relative inline-block px-6 py-2 text-white bg-black border-2 border-transparent rounded-full hover:text-black hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all duration-300"
-                                    >
-                                        {item.name}
-                                        <span className="absolute inset-0 rounded-full border-2 border-purple-500 group-hover:border-pink-500 transition-all duration-300"></span>
-                                    </button>
+                                <li key={item.name} className="mx-2">
+                                    {item.isLogo ? (
+                                        <button
+                                            onClick={() => handleNavigation(item.slug)}
+                                            className="flex items-center bottom-0"
+                                        >
+                                            <img
+                                                src="https://clipground.com/images/web-logo-png-white-3.png" 
+                                                alt="BlogAI"
+                                                className="h-10" 
+                                            />
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={() => handleNavigation(item.slug)}
+                                            className="relative inline-block px-6 py-2 text-white bg-black border-2 border-transparent rounded-full hover:text-black hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all duration-300"
+                                        >
+                                            {item.name}
+                                            <span className="absolute inset-0 rounded-full border-2 border-purple-500 group-hover:border-pink-500 transition-all duration-300"></span>
+                                        </button>
+                                    )}
                                 </li>
                             ) : null
                         )}
