@@ -4,7 +4,7 @@ export default class AiService {
         const postEndpoint = "https://6793cd8ba24772422647.appwrite.global/api";
         const response = await fetch(postEndpoint, {
           method: "POST",
-          mode:"no-cors",
+          
           headers: {
             "Content-Type": "application/json",
           },
