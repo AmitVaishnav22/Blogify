@@ -6,7 +6,7 @@
         "use": "@vercel/static"
       },
       {
-        "src": "src/**/*",
+        "src": "build/**/*",
         "use": "@vercel/static-build"
       }
     ],
@@ -16,5 +16,6 @@
         "dest": "/index.html"
       }
     ]
-  }
+}
+  
   
