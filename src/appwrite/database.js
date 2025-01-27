@@ -38,6 +38,70 @@ export class Service{
         }
     }
 
+    async toggleBookmark(userId, postId) {
+        try {
+            
+            const response = await this.databases.listDocuments(
+                config.appwriteDataBaseId,
+                config.appwriteBookmarkId,
+                [
+                    Query.equal('userId', userId), 
+                    Query.equal('postId', postId)
+                ]
+            );
+
+            if (response.documents.length > 0) {
+                // If bookmark exists, delete it
+                await this.databases.deleteDocument(
+                    config.appwriteDataBaseId,
+                    config.appwriteBookmarkId,
+                    response.documents[0].$id
+                );
+                return 'removed';
+            } else {
+                // If bookmark does not exist, create it
+                await this.databases.createDocument(
+                    config.appwriteDataBaseId,
+                    config.appwriteBookmarkId,
+                    ID.unique(),
+                    {
+                        userId,
+                        postId, 
+                    }
+                );
+                return 'added';
+        }
+            
+        } catch (error) {
+            console.error('Error toggling bookmark:', error);
+            throw error;
+        }
+    }
+
+    async getBookmarks(userId) {
+        try {
+            return await this.databases.listDocuments(
+                config.appwriteDataBaseId,
+                config.appwriteBookmarkId,
+                [Query.equal('userId', userId)]
+            );
+        } catch (error) {
+            console.error('Error fetching bookmarks:', error);
+            throw error;
+        }
+    }
+    async fetchPostsForBookmarks(bookmarks) {
+        try {
+            const postIds = bookmarks.map((bookmark) => bookmark.postId);
+            if (postIds.length === 0) return [];
+            const posts = await this.getPosts([Query.equal("$id", postIds)]);
+            return posts.documents;
+        } catch (error) {
+            console.error("Error fetching posts for bookmarks:", error);
+            return [];
+        }
+    }
+
     async updatePost(slug,{title,content,featuredImg,status}){
         try {
             return await this.databases.updateDocument(
@@ -97,6 +161,7 @@ export class Service{
             return false
         }
     }
+
     async getInactivePosts(queries=[Query.equal("status","inactive")]){
         try {
             return await this.databases.listDocuments(
@@ -213,6 +278,7 @@ export class Service{
             throw error; 
         }
     }
+
     
     async deleteComment(postId, userId, commentId) {
         try {

@@ -16,7 +16,9 @@ function Header() {
         { name: "Add Post", slug: "/add-post", active: authStatus },
         { name: "Your Posts", slug: "/your-posts", active: authStatus },
         { name: "Drafts", slug: "/drafts", active: authStatus },
+        { name: "Bookmarks", slug: "/bookmarks", active: authStatus },
         {name: "BlogAI", slug:"/blogAI",active: authStatus ,isLogo:true }
+        
     ];
 
     const handleNavigation = (slug) => {
@@ -45,7 +47,7 @@ function Header() {
                                             className="flex items-center bottom-0"
                                         >
                                             <img
-                                                src="https://clipground.com/images/web-logo-png-white-3.png" 
+                                                src="https://png.pngtree.com/png-vector/20240204/ourmid/pngtree-round-in-purple-color-png-image_11606292.png" 
                                                 alt="BlogAI"
                                                 className="h-10" 
                                             />

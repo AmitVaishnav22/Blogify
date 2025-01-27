@@ -20,10 +20,10 @@ function Drafts(){
         if(userId){
             service.getInactivePosts([
                 Query.equal("userId",userId),
-                Query.equal("status","inactive")
+                Query.equal("status","inactive") 
             ]).then((post)=>{
                 if (post){
-                    console.log("POST RECIVED")
+                    //console.log("POST RECIVED")
                     setPosts(post.documents)
                 }
             }).catch((error)=>{

@@ -14,6 +14,7 @@ import EditPost from './Pages/EditPost.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Drafts from './Pages/Drafts.jsx'
 import ChatComponent from './components/BlogAI/BlogAI.jsx'
+import Bookmarks from './Pages/Bookmarks.jsx'
 
 const router=createBrowserRouter([
   {
@@ -92,6 +93,10 @@ const router=createBrowserRouter([
       {
         path:'/blogAI',
         element:<ChatComponent/>
+      },
+      {
+        path:'/bookmarks',
+        element:<Bookmarks/>
       }
     ]
 

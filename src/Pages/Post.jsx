@@ -18,12 +18,13 @@ export default function Post() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const userData = useSelector((state) => state.auth.userData);
-    //console.log(userData.name);
+    //console.log(userData);
     //console.log(userName);
     const [isAuthor,setIsAuthor]=useState(false)
     const [loading, setLoading] = useState(false);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
+    const [isBookmarked, setIsBookmarked] = useState(false);
 
 
     useEffect(() => {
@@ -128,12 +129,43 @@ export default function Post() {
     };
 
     //console.log(post)
+
+    const handleToggleBookmark = async (userId,postId) => {
+        setLoading(true);
+        try {
+            // console.log(userId,postId)
+            const action = await service.toggleBookmark(userId, postId);
+            setIsBookmarked(action === 'added');
+            alert(`Bookmark ${action === 'added' ? 'added!' : 'removed!'}`); // Alert the user after each toggle
+        } catch (error) {
+            console.error('Error toggling bookmark:', error);
+            alert('Something went wrong. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
      
 
     return post ? (
         <div className="py-8">
             <Container>
                 <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
+                <div className="absolute left-6 top-6">
+                    <button
+                        onClick={() => handleToggleBookmark(userData.$id,post.$id)}
+                        className="bg-blue-500 text-white p-2 rounded-full shadow-md hover:bg-blue-600 focus:outline-none"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            className="w-6 h-6"
+                        >
+                            <path d="M5 3v18l7-5 7 5V3z" />
+                        </svg>
+                    </button>
+                </div>
                 
                     <img
                         src={service.getFilePreview(post.featuredImg)}
