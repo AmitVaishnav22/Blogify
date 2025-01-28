@@ -15,6 +15,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Drafts from './Pages/Drafts.jsx'
 import ChatComponent from './components/BlogAI/BlogAI.jsx'
 import Bookmarks from './Pages/Bookmarks.jsx'
+import LikedPost from './Pages/LikedPost.jsx'
 
 const router=createBrowserRouter([
   {
@@ -97,6 +98,10 @@ const router=createBrowserRouter([
       {
         path:'/bookmarks',
         element:<Bookmarks/>
+      },
+      {
+        path:'/liked-posts',
+        element:<LikedPost/>
       }
     ]
 

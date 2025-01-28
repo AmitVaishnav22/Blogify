@@ -17,6 +17,7 @@ function Header() {
         { name: "Your Posts", slug: "/your-posts", active: authStatus },
         { name: "Drafts", slug: "/drafts", active: authStatus },
         { name: "Bookmarks", slug: "/bookmarks", active: authStatus },
+        { name: "LikedPosts", slug: "/liked-posts", active: authStatus },
         {name: "BlogAI", slug:"/blogAI",active: authStatus ,isLogo:true }
         
     ];

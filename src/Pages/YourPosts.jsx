@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { PostCard,Container} from "../components";
 import service from "../appwrite/database";
+import { useSelector } from "react-redux";
 import authService from "../appwrite/auth";
 import { Query } from "appwrite";
 
 function YourPosts(){  
     const [posts,setPosts]=useState([])
-    const [userId,setUserId]=useState(null)
-    useEffect(() => {
-        authService.getCurrUser().then((currUser) => {
-            //console.log("Current User:", currUser);
-            if (currUser) {
-                setUserId(currUser.$id);
-            }
-        }).catch((error) => {
-            console.error("Error fetching current user:", error);
-        });
-    }, []);
+    const userData = useSelector((state) => state.auth.userData);
     useEffect(()=>{
+        const userId = userData?.$id;
         if (userId){
             //console.log("Fetching posts for userId:", userId);
             service.getPosts([Query.equal("userId",userId)])
@@ -30,7 +22,7 @@ function YourPosts(){
                 console.error("Error fetching posts:", error);
             });
         }
-    },[userId])
+    },[userData])
     return (
         <>
             <div className='w-full py-8'>

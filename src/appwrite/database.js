@@ -215,8 +215,7 @@ export class Service{
             );
 
             //console.log(post)
-            const userLikes = JSON.parse(post.userLikes || "[]");  
-            //console.log(userLikes)
+            const userLikes = Array.isArray(post.userLikes) ? post.userLikes : [];
             const hasLiked = userLikes.includes(userId);
     
             const updatedLikes = hasLiked ? post.likes - 1 : post.likes + 1;
@@ -224,16 +223,13 @@ export class Service{
                 ? userLikes.filter((id) => id !== userId)
                 : [...userLikes, userId];
     
-          
-            const updatedUserLikesString = JSON.stringify(updatedUserLikes);
-    
             return await this.databases.updateDocument(
                 config.appwriteDataBaseId,
                 config.appwriteCollectionId,
                 postId,
                 {
                     likes: updatedLikes,
-                    userLikes: updatedUserLikesString,
+                    userLikes: updatedUserLikes,
                 }
             );
         } catch (error) {
@@ -278,6 +274,20 @@ export class Service{
             throw error; 
         }
     }
+    async getUserLikedPosts(currentUserId) {
+        try {
+            const queries = [
+                Query.search("userLikes", currentUserId),
+            ];
+    
+            const response = await this.getPosts(queries);
+        
+            return response.documents; 
+        } catch (error) {
+            console.error("Error fetching user liked posts:", error);
+            throw error;
+        }
+    }
 
     
     async deleteComment(postId, userId, commentId) {
@@ -307,6 +317,7 @@ export class Service{
             throw error;
         }
     }
+
     
 
 

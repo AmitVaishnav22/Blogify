@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from "react";
 import authService from "../appwrite/auth";
 import service from "../appwrite/database";
+import { useSelector } from "react-redux";
 import { Container,PostCard} from "../components";
 import { Query } from "appwrite";
 
 function Drafts(){
     const [posts,setPosts]=useState([])
-    const [userId,setUserId]=useState(null)
+    const userData = useSelector((state) => state.auth.userData);
     useEffect(()=>{
-        authService.getCurrUser().then((curruser)=>{
-            if (curruser){
-                setUserId(curruser.$id)
-            }
-        }).catch((error)=>{
-            console.log(error)
-        }); 
-    },[])
-    useEffect(()=>{
+        const userId = userData?.$id; 
         if(userId){
             service.getInactivePosts([
                 Query.equal("userId",userId),
@@ -30,7 +23,7 @@ function Drafts(){
                 console.log(error)
             })
         }
-    },[userId])
+    },[userData])
     return(
         <>
         <div className='w-full py-8'>

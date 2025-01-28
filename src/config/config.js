@@ -8,4 +8,4 @@ const config={
     appwriteBookmarkId:String(import.meta.env.VITE_APPWRITE_BOOKMARK_ID),
 }
 
-export default config  
+export default config   
