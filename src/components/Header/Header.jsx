@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Container, Logo, Logoutbtn,Loader} from "../index";  
+import { Container, Logo,Loader} from "../index";  
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import MoreOptions from "./MoreOptions";
 
 function Header() {
     const [loading, setLoading] = useState(false);  
@@ -14,10 +15,6 @@ function Header() {
         { name: "Signup", slug: "/signup", active: !authStatus },
         { name: "All Posts", slug: "/all-posts", active: authStatus },
         { name: "Add Post", slug: "/add-post", active: authStatus },
-        { name: "Your Posts", slug: "/your-posts", active: authStatus },
-        { name: "Drafts", slug: "/drafts", active: authStatus },
-        { name: "Bookmarks", slug: "/bookmarks", active: authStatus },
-        { name: "LikedPosts", slug: "/liked-posts", active: authStatus },
         {name: "BlogAI", slug:"/blogAI",active: authStatus ,isLogo:true }
         
     ];
@@ -48,7 +45,7 @@ function Header() {
                                             className="flex items-center bottom-0"
                                         >
                                             <img
-                                                src="https://png.pngtree.com/png-vector/20240204/ourmid/pngtree-round-in-purple-color-png-image_11606292.png" 
+                                                src="https://cdn-icons-png.flaticon.com/512/9938/9938623.png" 
                                                 alt="BlogAI"
                                                 className="h-10" 
                                             />
@@ -67,9 +64,7 @@ function Header() {
                         )}
                         {authStatus && (
                             <li>
-
-                                <Logoutbtn />
-                                
+                                <MoreOptions/>                                
                             </li>
                         )}
                     </ul>

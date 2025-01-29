@@ -137,7 +137,9 @@ export default function PostForm({ post }) {
                         post ? "Update" : "Submit"
                     )}
                 </Button>
+                <div className="mt-4">
                 <ChatComponent/>
+                </div>
             </div>
         </form>
     );

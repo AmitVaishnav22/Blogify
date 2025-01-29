@@ -27,6 +27,12 @@ function YourPosts(){
         <>
             <div className='w-full py-8'>
                 <Container>
+                    <h1 className="text-2xl font-bold mb-6 text-purple-400 text-center">
+                        Your Posts
+                    </h1>
+                    <p className="text-lg text-center mb-4 text-gray-400">
+                        TotalPosts: <span className="font-semibold text-white">{posts.length}</span>
+                    </p>
                     {posts.length > 0 ? (
                         <div className='flex flex-wrap'>
                             {posts.map((post) => (

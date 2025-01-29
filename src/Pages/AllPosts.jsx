@@ -21,6 +21,9 @@ function AllPosts(){
     },[])
     return (
         <>
+        <h1 className="text-xl font-bold mb-6 text-red-800 text-center">
+            This is the feed section, containing all the posts that where uploaded by different users across this platform
+        </h1>
         <SearchBar/>
         <div className='w-full py-8'>
             <Container>

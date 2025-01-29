@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import service from "../appwrite/database";
 import { Link } from "react-router-dom";
 import authService from "../appwrite/auth";
-import {formatDistanceToNow,parse} from "date-fns"
+import { FaCommentDots } from "react-icons/fa";
+import { AiFillLike } from "react-icons/ai";
 
-function PostCard({ $id, title, featuredImg ,userId,}) {
+function PostCard({ $id, title, featuredImg ,userId,likes,comments}) {
   const [user,setUser]=useState(null)
   
   useEffect(()=>{
@@ -41,6 +42,15 @@ function PostCard({ $id, title, featuredImg ,userId,}) {
       </div>
     </Link>
     <h2 className='text-xl font-bold text-white text-center line-clamp-2'>{title}</h2>
+    <div className="flex items-center justify-center space-x-4">
+      <h2 className="text-l font-bold text-purple-800 flex items-center">
+          {likes} <AiFillLike size={14} className="ml-1" />
+      </h2>
+      <h2 className="text-l font-bold text-purple-800 flex items-center">
+        {comments.length} <FaCommentDots size={14} className="ml-1" />
+      </h2>
+    </div>
+
     </>
   );
 }
