@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../Loader";
+import Logoutbtn from "./Logoutbtn";
 
 export default function MoreOptions() {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ export default function MoreOptions() {
 
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-3/4">
                 <button className="w-full text-center px-6 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-lg transition duration-300">
-                  Logout
+                  <Logoutbtn/>
                 </button>
               </div>
             </>
