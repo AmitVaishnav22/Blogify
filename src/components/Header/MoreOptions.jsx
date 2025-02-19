@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../Loader";
+import service from "../../appwrite/database.js"
 import Logoutbtn from "./Logoutbtn";
-
 export default function MoreOptions() {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
@@ -33,6 +33,12 @@ export default function MoreOptions() {
     };
   }, [showMenu]);
 
+  const handleProfileClick = () => {
+    if (userData?.$id) {
+      navigate(`/users-info/${userData.$id}`);
+    }
+  };
+
   return (
     <div className="relative z-10" ref={menuRef}>
       <button onClick={() => setShowMenu(!showMenu)}>
@@ -49,15 +55,25 @@ export default function MoreOptions() {
             <Loader />
           ) : (
             <>
-              <div className="text-center mb-4 border-b border-gray-600 pb-2">
-                <h1 className="text-xl font-semibold text-purple-400">
-                  Hi, {userData?.name || "User"}
-                </h1>
-                <p className="text-sm text-gray-400">{userData?.email}</p>
-                <p className="text-sm text-gray-400">
-                  Joined: {new Date(userData?.$createdAt).toLocaleString()}
-                </p>
-              </div>  
+              <div className="text-center mb-4 border-b border-gray-600 pb-4">
+                  <div className="w-24 h-24 mx-auto mb-2">
+                      <img 
+                          src={userData?.userprofile ? service.getFilePreview(userData.userprofile) : "default-profile.png"} 
+                          alt={userData?.name} 
+                          className="w-full h-full rounded-full object-cover border-4 border-purple-600" 
+                      />
+                  </div>
+                  <h1 className="text-xl font-semibold text-purple-400">
+                      Hi, {userData?.name || "User"}
+                  </h1>
+              </div>
+              {/* View Full Profile Button */}
+              <button
+                onClick={handleProfileClick}
+                className="w-full h-50 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg transition duration-300 mb-4"
+              >
+                View Full Profile
+              </button>
 
               <h2 className="text-lg font-semibold mb-2 text-purple-300">
                 Your Activities
@@ -74,12 +90,9 @@ export default function MoreOptions() {
                   </li>
                 ))}
               </ul>
-
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-3/4">
-                <button className="w-full text-center px-6 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-lg transition duration-300">
-                  <Logoutbtn/>
-                </button>
-              </div>
+              <button className="w-full text-center px-6 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-lg transition duration-300">
+                <Logoutbtn />
+              </button>        
             </>
           )}
         </div>

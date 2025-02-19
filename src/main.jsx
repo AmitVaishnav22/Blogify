@@ -16,6 +16,7 @@ import Drafts from './Pages/Drafts.jsx'
 import ChatComponent from './components/BlogAI/BlogAI.jsx'
 import Bookmarks from './Pages/Bookmarks.jsx'
 import LikedPost from './Pages/LikedPost.jsx'
+import UserInfo from "./Pages/UserInfo.jsx"
 
 const router=createBrowserRouter([
   {
@@ -102,6 +103,10 @@ const router=createBrowserRouter([
       {
         path:'/liked-posts',
         element:<LikedPost/>
+      },
+      {
+        path:'/users-info/:userId',
+        element:<UserInfo/>
       }
     ]
 

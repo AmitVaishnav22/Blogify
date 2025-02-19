@@ -15,6 +15,7 @@
     "appwrite": "^16.0.2",
     "date-fns": "^4.1.0",
     "html-react-parser": "^5.1.18",
+    "lucide-react": "^0.475.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",

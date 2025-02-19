@@ -6,6 +6,7 @@ const config={
     appwriteBucketId:String(import.meta.env.VITE_APPWRITE_BUCKET_ID),
     appwriteFunctionId:String(import.meta.env.VITE_APPWRITE_FUNCTION_ID),
     appwriteBookmarkId:String(import.meta.env.VITE_APPWRITE_BOOKMARK_ID),
+    appwriteUserId:String(import.meta.env.VITE_APPWRITE_USER_ID),
 }
 
 export default config   

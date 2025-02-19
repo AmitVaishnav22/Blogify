@@ -18,14 +18,6 @@ function PostCard({ $id, title, featuredImg ,userId,likes,comments}) {
       console.log(error)
     })
   })
-
-  // useEffect(()=>{
-  //   service.getUserDocs(userId).then((user)=>{
-  //     if(user){
-  //       setauthor(user.name)
-  //     }
-  //   })
-  // },[userId])
   const isUserPost=userId===user
   return (
     <>

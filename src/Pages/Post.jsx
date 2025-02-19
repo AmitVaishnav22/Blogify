@@ -36,6 +36,8 @@ export default function Post() {
         } else navigate("/");
     }, [slug, navigate]);
 
+    // console.log(service.getCurrUser())
+
     useEffect(() => {
         if (post && userData) {
             setIsAuthor(post.userId === userData.$id);
@@ -128,7 +130,7 @@ export default function Post() {
         }
     };
 
-    //console.log(post)
+    // console.log(post)
 
     const handleToggleBookmark = async (userId,postId) => {
         setLoading(true);
