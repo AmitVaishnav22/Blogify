@@ -105,7 +105,7 @@ const router=createBrowserRouter([
         element:<LikedPost/>
       },
       {
-        path:'/users-info/:userId',
+        path:'/user-info/:userId',
         element:<UserInfo/>
       }
     ]

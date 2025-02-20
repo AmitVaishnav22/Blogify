@@ -5,11 +5,12 @@ import { useSelector } from "react-redux";
 import authService from "../appwrite/auth";
 import { Query } from "appwrite";
 
-function YourPosts(){  
+function YourPosts({userId:propUserId}){  
     const [posts,setPosts]=useState([])
     const userData = useSelector((state) => state.auth.userData);
+    const userId = propUserId || userData?.$id
+
     useEffect(()=>{
-        const userId = userData?.$id;
         if (userId){
             //console.log("Fetching posts for userId:", userId);
             service.getPosts([Query.equal("userId",userId)])
@@ -22,13 +23,13 @@ function YourPosts(){
                 console.error("Error fetching posts:", error);
             });
         }
-    },[userData])
+    },[userId])
     return (
         <>
             <div className='w-full py-8'>
                 <Container>
                     <h1 className="text-2xl font-bold mb-6 text-purple-400 text-center">
-                        Your Posts
+                        Published Public Posts
                     </h1>
                     <p className="text-lg text-center mb-4 text-gray-400">
                         TotalPosts: <span className="font-semibold text-white">{posts.length}</span>

@@ -1,5 +1,5 @@
 import config from "../config/config";
-import { Client, Account,Databases, ID} from "appwrite";
+import { Client, Account,Databases, ID,Query} from "appwrite";
 
 export class AuthService{
     client=new Client();
@@ -119,8 +119,20 @@ export class AuthService{
             throw error;
         }
     }
-    
+    async getUserById(userId) {
+        try {
+            const response = await this.database.listDocuments(
+                config.appwriteDataBaseId,
+                config.appwriteUserId, 
+                [Query.equal("$id", userId)]
+            );
 
+            return response.documents.length > 0 ? response.documents[0] : null;
+        } catch (error) {
+            console.error("Error fetching user:", error);
+            return null;
+        }
+    }
 }
 
 const authService=new AuthService()

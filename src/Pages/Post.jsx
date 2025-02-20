@@ -131,6 +131,7 @@ export default function Post() {
     };
 
     // console.log(post)
+    // console.log(post?.userId)
 
     const handleToggleBookmark = async (userId,postId) => {
         setLoading(true);
@@ -147,6 +148,9 @@ export default function Post() {
         }
     };
 
+    const handleUserClick =()=>{
+        navigate(`/user-info/${post?.userId}`)
+    } 
      
 
     return post ? (
@@ -193,8 +197,11 @@ export default function Post() {
                     <span className="font-semibold text-gray-400 inline-block w-full text-right">
                         uploaded on : {new Date(post.$createdAt).toLocaleString()}
                     </span>
-                    <span className="font-semibold text-gray-400 inline-block w-full text-right">
-                        uploaded By : {post.userName} 
+                    <span
+                        className="font-semibold text-purple-400 inline-block w-full text-right cursor-pointer hover:underline"
+                        onClick={handleUserClick}
+                    >
+                        uploaded By : {post.userName}
                     </span>
                 </div>
             {/* Like and Comments Section */}

@@ -2,13 +2,18 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../Loader";
-import service from "../../appwrite/database.js"
+import authService from "../../appwrite/auth.js";
+import service from "../../appwrite/database.js";
 import Logoutbtn from "./Logoutbtn";
+
 export default function MoreOptions() {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
-  const { userData, loading } = useSelector((state) => state.auth);
   const menuRef = useRef(null);
+  const { userData, loading } = useSelector((state) => state.auth);
+
+  const [profileImage, setProfileImage] = useState("default-profile.png");
+  const [userBio, setUserBio] = useState("");
 
   const options = [
     { name: "Your Posts", slug: "/your-posts" },
@@ -33,9 +38,32 @@ export default function MoreOptions() {
     };
   }, [showMenu]);
 
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (userData?.$id) {
+        try {
+          const userProfile = await authService.getUserById(userData.$id);
+          setUserBio(userProfile?.bio || "No bio available");
+
+          if (userProfile?.userprofile) {
+            const imageUrl = await service.getFilePreview(userProfile.userprofile);
+            setProfileImage(imageUrl);
+          } else {
+            setProfileImage("default-profile.png");
+          }
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+          setProfileImage("default-profile.png");
+        }
+      }
+    };
+
+    fetchUserProfile();
+  }, [userData?.$id]);
+
   const handleProfileClick = () => {
     if (userData?.$id) {
-      navigate(`/users-info/${userData.$id}`);
+      navigate(`/user-info/${userData.$id}`);
     }
   };
 
@@ -56,21 +84,23 @@ export default function MoreOptions() {
           ) : (
             <>
               <div className="text-center mb-4 border-b border-gray-600 pb-4">
-                  <div className="w-24 h-24 mx-auto mb-2">
-                      <img 
-                          src={userData?.userprofile ? service.getFilePreview(userData.userprofile) : "default-profile.png"} 
-                          alt={userData?.name} 
-                          className="w-full h-full rounded-full object-cover border-4 border-purple-600" 
-                      />
-                  </div>
-                  <h1 className="text-xl font-semibold text-purple-400">
-                      Hi, {userData?.name || "User"}
-                  </h1>
+                <div className="w-24 h-24 mx-auto mb-2">
+                  <img
+                    src={profileImage}
+                    alt={userData?.name}
+                    className="w-full h-full rounded-full object-cover border-4 border-purple-600"
+                  />
+                </div>
+                <h1 className="text-xl font-semibold text-purple-400">
+                  Hi, {userData?.name || "User"}
+                </h1>
+                <p className="text-sm text-gray-300 mt-2">{userBio}</p>
               </div>
+
               {/* View Full Profile Button */}
               <button
                 onClick={handleProfileClick}
-                className="w-full h-50 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg transition duration-300 mb-4"
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg transition duration-300 mb-4"
               >
                 View Full Profile
               </button>
@@ -92,7 +122,7 @@ export default function MoreOptions() {
               </ul>
               <button className="w-full text-center px-6 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-lg transition duration-300">
                 <Logoutbtn />
-              </button>        
+              </button>
             </>
           )}
         </div>

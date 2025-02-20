@@ -3,13 +3,14 @@ import service from "../appwrite/database";
 import { useSelector } from "react-redux";
 import { Container, PostCard } from "../components";
 
-function LikedPost() {
+function LikedPost({userId:propUserId}) {
     const [posts, setPosts] = useState([]);
     const userData = useSelector((state) => state.auth.userData);
     const [loading, setLoading] = useState(true);
+    const userId = propUserId || userData?.$id
 
     useEffect(() => {
-        const userId = userData?.$id; 
+        // const userId = userData?.$id; 
         if (userId) {
             setLoading(true);
             service
@@ -25,13 +26,13 @@ function LikedPost() {
                     setLoading(false);
                 });
         }
-    }, [userData]);
+    }, [userId]);
     
     return (
         <div className="w-full py-8">
             <Container>
                     <h1 className="text-2xl font-bold mb-6 text-purple-400 text-center">
-                        Your Liked Posts
+                        Liked Posts
                     </h1>
                     <p className="text-lg text-center mb-4 text-gray-400">
                         Total Liked Posts: <span className="font-semibold text-white">{posts.length}</span>
