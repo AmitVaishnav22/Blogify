@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRef } from "react";
 
 function Home() {
     const navigate = useNavigate();
-    const newFeatureRef = useRef(null);
+    const [showNewFeature, setShowNewFeature] = useState(false);
     useEffect(() => {
         const visited = sessionStorage.getItem("visitedHome");
-        if (!visited && newFeatureRef.current) {
-          newFeatureRef.current.scrollIntoView({ behavior: "smooth" });
-          sessionStorage.setItem("visitedHome", "true");
+        if (!visited) {
+        setShowNewFeature(true); 
+        sessionStorage.setItem("visitedHome", "true");
         }
       }, []);
     return (
         <>
         <div className="landing-page bg-black text-white min-h-screen">
-
-        <div ref={newFeatureRef} className="feature-card p-1 bg-gray-800 rounded-lg shadow-lg border border-purple-500 relative animate-pulse">
+        
+        {showNewFeature && <div className="feature-card p-1 bg-gray-800 rounded-lg shadow-lg border border-purple-500 relative animate-pulse">
             <span className="absolute top-2 right-2 text-xs bg-yellow-400 text-black px-2 py-0.5 rounded font-semibold">
                 NEW
             </span>
@@ -24,7 +23,7 @@ function Home() {
             <p className="text-gray-300 mt-2">
                 Follow along as the blog is read aloud with live word-by-word highlighting.
             </p>
-        </div>
+        </div>}
         
             {/* Hero Section */}
             <section className="hero py-16 text-center">

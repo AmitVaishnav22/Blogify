@@ -200,11 +200,11 @@ export class Service{
     }
     getFilePreview(fileId){
         try {
-            console.log("get",
-                this.storage.getFileView(
-                config.appwriteBucketId,
-                fileId
-            ))
+            // console.log("get",
+            //     this.storage.getFileView(
+            //     config.appwriteBucketId,
+            //     fileId
+            // ))
             return this.storage.getFileView(
                 config.appwriteBucketId,
                 fileId
