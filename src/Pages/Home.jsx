@@ -129,6 +129,12 @@ function Home() {
                     Discover content that matters to you with powerful filtering and sorting options.
                     </p>
                 </div>
+                <div className="ai-benefit p-6 bg-gray-800 rounded-lg shadow-lg">
+                    <h3 className="text-xl font-bold text-purple-400">Cant Read long Blogs ?</h3>
+                    <p className="text-gray-300 mt-2">
+                    Enabling voice assigtants to read blogs aloud, making it easier to consume content on the go.
+                    </p>
+                </div>
                 </div>
             </section>
 
