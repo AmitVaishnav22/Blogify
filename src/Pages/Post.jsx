@@ -151,8 +151,77 @@ export default function Post() {
     const handleUserClick =()=>{
         navigate(`/user-info/${post?.userId}`)
     } 
-     
 
+    const [isSpeaking, setIsSpeaking] = useState(false);
+    const [currentWordIndex, setCurrentWordIndex] = useState(null);
+    const [words, setWords] = useState([]);
+    const [isInAudio, setIsInAudio] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+
+    const speakContent = () => {
+        const plainText = stripHtmlTags(post?.content || '');
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance(plainText);
+        // Split into words for highlighting
+        const wordArray = plainText.split(/\s+/);
+        setWords(wordArray);
+    
+        utterance.lang = 'en-US';
+        utterance.rate = 1;
+        utterance.pitch = 1;
+    
+        utterance.onboundary = (event) => {
+            const spokenUntil = plainText.slice(0, event.charIndex);
+            const spokenWords = spokenUntil.trim().split(/\s+/);
+            const index = spokenWords.length - 1;
+            setCurrentWordIndex(index);
+        };
+    
+        utterance.onend = () => {
+            setIsSpeaking(false);
+            setCurrentWordIndex(null);
+        };
+    
+        synth.speak(utterance);
+        setIsSpeaking(true);
+        setIsInAudio(true);
+    };
+    
+    const stopSpeaking = () => {
+        window.speechSynthesis.cancel();
+        setIsSpeaking(false);
+        setCurrentWordIndex(null);
+        setWords([]);
+        setCurrentWordIndex(null);
+        setIsInAudio(false);
+        setIsPaused(false);
+        
+    };
+    const handlePauseResume = () => {
+        const synth = window.speechSynthesis;
+        if (isPaused) {
+            synth.resume();
+            setIsPaused(false);
+        } else {
+            synth.pause();
+            setIsPaused(true);
+        }
+    };
+    
+    
+    const stripHtmlTags = (html) => {
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        return div.textContent || div.innerText || '';
+    };
+
+    const handleUserInfo = (userId) => {
+        if (userId){
+            navigate(`/user-info/${userId}`);
+        }
+    }
+    
+    
     return post ? (
         <div className="py-8">
             <Container>
@@ -192,8 +261,41 @@ export default function Post() {
                 <div className="w-full mb-6">
                     <h1 className="text-2xl text-white font-bold">{post.title}</h1>
                 </div>
+                <div className="flex justify-end mb-4">
+                    <button
+                        onClick={isSpeaking ? stopSpeaking : speakContent}
+                        className={`px-4 py-1 ${
+                        isSpeaking ? 'bg-red-600 hover:bg-red-700' : 'bg-purple-700 hover:bg-purple-800'
+                        } text-white rounded-l shadow transition`}
+                    >
+                        {isSpeaking ? '🛑 Stop' : '🎧 Listen to Content'}
+                    </button>
+                    {isSpeaking && (
+                        <button
+                            onClick={handlePauseResume}
+                            className="px-4 py-1 bg-green-600 hover:bg-green-700 text-white rounded-r shadow transition"
+                        >
+                            {isPaused ? '▶️ Resume' : '⏸️ Pause'}
+                        </button>
+                    )}
+                
+                </div>
+                <div className="browser-css text-white leading-relaxed tracking-wide text-lg">
+                    {words.map((word, index) => (
+                        <span
+                        key={index}
+                        className={`transition-all duration-150 ${
+                            index === currentWordIndex
+                            ? 'bg-yellow-500 text-black rounded px-1'
+                            : ''
+                        }`}
+                        >
+                        {word}{' '}
+                        </span>
+                    ))}
+                    </div>
                 <div className="browser-css text-white">
-                    {parse(post.content)}
+                    {!isInAudio ? parse(post.content) : "" }
                     <span className="font-semibold text-gray-400 inline-block w-full text-right">
                         uploaded on : {new Date(post.$createdAt).toLocaleString()}
                     </span>
@@ -247,8 +349,7 @@ export default function Post() {
                         return (
                             <div key={index} className="p-2 rounded bg-gray-800 relative">
                                 <p className="text-gray-300">{parsedComment.content}</p>
-                                <small className="text-gray-500">By {parsedComment.userName}</small>
-
+                                <small className="text-sm font-semibold text-purple-300 cursor-pointer hover:underline hover:text-purple-400 transition duration-200" onClick={()=>{handleUserInfo(parsedComment.userId)}}>By {parsedComment.userName}</small>
                                 {/* Delete Button for the Comment Owner */}
                                 {parsedComment.userId === userData.$id && (
                                     <button
@@ -266,11 +367,6 @@ export default function Post() {
                     <p className="text-gray-500">No comments yet.</p>
                 )}
             </div>
-
-
-            
-            
-
             </Container>
             {showAlert && (
                 <Alert

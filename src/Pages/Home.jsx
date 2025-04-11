@@ -1,11 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 function Home() {
     const navigate = useNavigate();
+    const newFeatureRef = useRef(null);
+    useEffect(() => {
+        const visited = sessionStorage.getItem("visitedHome");
+        if (!visited && newFeatureRef.current) {
+          newFeatureRef.current.scrollIntoView({ behavior: "smooth" });
+          sessionStorage.setItem("visitedHome", "true");
+        }
+      }, []);
     return (
         <>
         <div className="landing-page bg-black text-white min-h-screen">
+
+        <div ref={newFeatureRef} className="feature-card p-1 bg-gray-800 rounded-lg shadow-lg border border-purple-500 relative animate-pulse">
+            <span className="absolute top-2 right-2 text-xs bg-yellow-400 text-black px-2 py-0.5 rounded font-semibold">
+                NEW
+            </span>
+            <h3 className="text-xl font-bold text-purple-400">Real-Time Speech Highlighting</h3>
+            <p className="text-gray-300 mt-2">
+                Follow along as the blog is read aloud with live word-by-word highlighting.
+            </p>
+        </div>
+        
             {/* Hero Section */}
             <section className="hero py-16 text-center">
                 <div className="hero-content max-w-4xl mx-auto">

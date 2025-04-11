@@ -13,7 +13,7 @@ import Drafts from "./Drafts";
 import Bookmarks from "./Bookmarks";
 
 export default function UserInfo() {
-    const { userId } = useParams(); // Get userId from URL
+    const { userId } = useParams(); 
     const dispatch = useDispatch();
     const authUser = useSelector((state) => state.auth?.userData);
     const isCurrentUser = authUser?.$id === userId;
@@ -49,9 +49,9 @@ export default function UserInfo() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const userData = await authService.getUserById(userId); // Fetch target user's data
+                const userData = await authService.getUserById(userId); 
                 setProfileUser(userData);
-                setNewBio(userData?.bio || ""); // Set bio state correctly
+                setNewBio(userData?.bio || ""); 
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }

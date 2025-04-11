@@ -11,7 +11,7 @@ function AllPosts(){
     useEffect(()=>{
         service.getPosts().then((posts) => {
             if (posts) {
-                // console.log(posts)
+                //console.log("posts",posts)
                 setPostss(posts.documents)
                 dispatch(setPosts(posts.documents));
             }

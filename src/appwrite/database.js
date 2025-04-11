@@ -199,10 +199,20 @@ export class Service{
         }
     }
     getFilePreview(fileId){
-        return this.storage.getFilePreview(
-            config.appwriteBucketId,
-            fileId
-        )
+        try {
+            console.log("get",
+                this.storage.getFileView(
+                config.appwriteBucketId,
+                fileId
+            ))
+            return this.storage.getFileView(
+                config.appwriteBucketId,
+                fileId
+            )
+        } catch (error) {
+            console.log("Appwrite service :: getFilePreview :: error", error);
+            return false
+        }
     }
 
     async toggleLike(postId, userId) {
