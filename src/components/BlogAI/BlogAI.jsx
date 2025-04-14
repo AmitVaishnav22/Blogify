@@ -58,11 +58,11 @@ const ChatComponent = () => {
 
   return (
     <div className="p-6 bg-black shadow-lg rounded-lg border border-purple-500 text-white max-w-2xl w-full mx-auto rounded-lg shadow-lg flex flex-col h-[80vh] md:h-[90vh]">
-      <h1 className="text-2xl font-bold mb-4 text-center">BlogAI</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Chronicle AI</h1>
       <div className="flex-1 overflow-y-auto mb-4 p-2 space-y-4">
         {messages.length === 0 && !loading && (
             <div className="p-4 text-center text-gray-400 bg-gray-800 rounded-lg">
-              Start a conversation with BlogAI!
+              Start a conversation with Chronicle AI!
             </div>
           )}
         {messages.map((msg, index) => (
@@ -125,7 +125,7 @@ const ChatComponent = () => {
       <div className="flex flex-col space-y-2">
         <textarea
           className="w-full p-3 bg-gray-800 text-white rounded-lg"
-          placeholder="Generate or summarize blog content with the help of BlogAI..."
+          placeholder="Generate or summarize blog content with the help of Chronical AI..."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           rows={4}

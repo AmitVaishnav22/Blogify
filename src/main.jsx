@@ -93,7 +93,7 @@ const router=createBrowserRouter([
         element:<Post/>
       },
       {
-        path:'/blogAI',
+        path:'/chronicle-ai',
         element:<ChatComponent/>
       },
       {

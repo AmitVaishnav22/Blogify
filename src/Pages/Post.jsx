@@ -57,7 +57,7 @@ export default function Post() {
             if (status) {
                 await service.deleteFile(post.featuredImg);
                 dispatch(removePost(post.$id));
-                navigate("/");
+                navigate("/all-posts");
             }
         } catch (error) {
             console.error("Error during delete operation:", error);

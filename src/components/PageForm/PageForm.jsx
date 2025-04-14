@@ -49,7 +49,7 @@ export default function PostForm({ post }) {
                 if (file) {
                     const fileId = file.$id;
                     data.featuredImg = fileId;
-                    console.log(userData.name)
+                    //console.log(userData.name)
                     const dbPost = await service.createPost({ ...data, userId: userData.$id,userName: userData.name });
 
                     if (dbPost) {
@@ -66,26 +66,26 @@ export default function PostForm({ post }) {
     };
 
 
-    const slugTransform = useCallback((value) => {
-        if (value && typeof value === "string")
-            return value
-                .trim()
-                .toLowerCase()
-                .replace(/[^a-zA-Z\d\s]+/g, "-")
-                .replace(/\s/g, "-");
+    // const slugTransform = useCallback((value) => {
+    //     if (value && typeof value === "string")
+    //         return value
+    //             .trim()
+    //             .toLowerCase()
+    //             .replace(/[^a-zA-Z\d\s]+/g, "-")
+    //             .replace(/\s/g, "-");
 
-        return "";
-    }, []);
+    //     return "";
+    // }, []);
 
-    useEffect(() => {
-        const subscription = watch((value, { name }) => {
-            if (name === "title") {
-                setValue("slug", slugTransform(value.title), { shouldValidate: true });
-            }
-        });
+    // useEffect(() => {
+    //     const subscription = watch((value, { name }) => {
+    //         if (name === "title") {
+    //             setValue("slug", slugTransform(value.title), { shouldValidate: true });
+    //         }
+    //     });
 
-        return () => subscription.unsubscribe();
-    }, [watch, slugTransform, setValue]);
+    //     return () => subscription.unsubscribe();
+    // }, [watch, slugTransform, setValue]);
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
@@ -96,7 +96,7 @@ export default function PostForm({ post }) {
                     className="mb-4 text-white"
                     {...register("title", { required: true })}
                 />
-                <Input
+                {/* <Input
                     label="Slug :"
                     placeholder="Slug"
                     className="mb-4"
@@ -104,7 +104,7 @@ export default function PostForm({ post }) {
                     onInput={(e) => {
                         setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
                     }}
-                />
+                /> */}
                 <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
             </div>
             <div className="w-1/3 px-2">

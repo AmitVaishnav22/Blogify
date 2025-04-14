@@ -21,16 +21,16 @@ function Home() {
             </span>
             <h3 className="text-xl font-bold text-purple-400">Real-Time Speech Highlighting</h3>
             <p className="text-gray-300 mt-2">
-                Follow along as the blog is read aloud with live word-by-word highlighting.
+                Follow along as the article is read aloud with live word-by-word highlighting.
             </p>
         </div>}
         
             {/* Hero Section */}
             <section className="hero py-16 text-center">
                 <div className="hero-content max-w-4xl mx-auto">
-                <h1 className="text-5xl font-bold text-purple-500">Blogify: AI-Powered Blog Platform</h1>
+                <h1 className="text-5xl font-bold text-purple-500">Chronicle AI : Online article sharing platform</h1>
                 <p className="text-lg mt-4 text-gray-300">
-                    Create, manage, and scale your blog effortlessly with the power of AI.
+                    Create, manage, and scale your articles effortlessly with the power of AI.
                 </p>
                 <button className="mt-8 px-6 py-3 bg-purple-500 text-white font-bold rounded-lg hover:bg-purple-700" onClick={() => navigate("/all-posts")}>
                     Get Started
@@ -45,19 +45,19 @@ function Home() {
                 <div className="feature-card p-6 bg-gray-800 rounded-lg shadow-lg">
                     <h3 className="text-xl font-bold text-purple-400">View Real-Time Posts</h3>
                     <p className="text-gray-300 mt-2">
-                    Instantly browse and interact with posts from other users in real-time.
+                    Instantly browse and interact with articles from other users in real-time.
                     </p>
                 </div>
                 <div className="feature-card p-6 bg-gray-800 rounded-lg shadow-lg">
                     <h3 className="text-xl font-bold text-purple-400">Like & Comment</h3>
                     <p className="text-gray-300 mt-2">
-                    Engage with the community by liking and commenting on posts effortlessly.
+                    Engage with the community by liking and commenting on articles effortlessly.
                     </p>
                 </div>
                 <div className="feature-card p-6 bg-gray-800 rounded-lg shadow-lg">
-                    <h3 className="text-xl font-bold text-purple-400">Bookmark Posts</h3>
+                    <h3 className="text-xl font-bold text-purple-400">Bookmark articles</h3>
                     <p className="text-gray-300 mt-2">
-                    Save your favorite posts for easy access anytime.
+                    Save your favorite articles for easy access anytime.
                     </p>
                 </div>
                 <div className="feature-card p-6 bg-gray-800 rounded-lg shadow-lg">
@@ -69,7 +69,7 @@ function Home() {
                 <div className="feature-card p-6 bg-gray-800 rounded-lg shadow-lg">
                     <h3 className="text-xl font-bold text-purple-400">AI-Powered Post Generation</h3>
                     <p className="text-gray-300 mt-2">
-                    Use AI to generate high-quality posts and summaries, saving you time and effort.
+                    Use AI to generate high-quality articles and summaries, saving you time and effort.
                     </p>
                 </div>
                 <div className="feature-card p-6 bg-gray-800 rounded-lg shadow-lg">
@@ -83,18 +83,18 @@ function Home() {
 
             {/* Pain Points Section */}
             <section className="pain-points py-16 bg-gray-900">
-                <h2 className="text-3xl font-bold text-center text-purple-500">Why Choose Blogify?</h2>
+                <h2 className="text-3xl font-bold text-center text-purple-500">Why Choose Chronicle AI?</h2>
                 <div className="pain-point-cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 max-w-6xl mx-auto">
                 <div className="pain-point-card p-6 bg-gray-800 rounded-lg shadow-lg">
                     <h3 className="text-xl font-bold text-purple-400">Seamless Interaction</h3>
                     <p className="text-gray-300 mt-2">
-                    No more delays or frustrations—enjoy instant interactions with posts and users.
+                    No more delays or frustrations—enjoy instant interactions with articles and users.
                     </p>
                 </div>
                 <div className="pain-point-card p-6 bg-gray-800 rounded-lg shadow-lg">
                     <h3 className="text-xl font-bold text-purple-400">Effortless Management</h3>
                     <p className="text-gray-300 mt-2">
-                    Simplify managing your blog and focus on creating great content.
+                    Simplify managing your articles and focus on creating great content.
                     </p>
                 </div>
                 <div className="pain-point-card p-6 bg-gray-800 rounded-lg shadow-lg">
@@ -108,12 +108,12 @@ function Home() {
 
             {/* How AI Helps Section */}
             <section className="ai-helps py-16">
-                <h2 className="text-3xl font-bold text-center text-purple-500">What Makes Blogify Special</h2>
+                <h2 className="text-3xl font-bold text-center text-purple-500">What Makes Chronicle AI Special</h2>
                 <div className="ai-benefits grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 max-w-6xl mx-auto">
                 <div className="ai-benefit p-6 bg-gray-800 rounded-lg shadow-lg">
                     <h3 className="text-xl font-bold text-purple-400">Real-Time Updates</h3>
                     <p className="text-gray-300 mt-2">
-                    Experience the latest posts and updates instantly, without delays.
+                    Experience the latest articles and updates instantly, without delays.
                     </p>
                 </div>
                 <div className="ai-benefit p-6 bg-gray-800 rounded-lg shadow-lg">
@@ -129,9 +129,9 @@ function Home() {
                     </p>
                 </div>
                 <div className="ai-benefit p-6 bg-gray-800 rounded-lg shadow-lg">
-                    <h3 className="text-xl font-bold text-purple-400">Cant Read long Blogs ?</h3>
+                    <h3 className="text-xl font-bold text-purple-400">Cant Read long articles ?</h3>
                     <p className="text-gray-300 mt-2">
-                    Enabling voice assigtants to read blogs aloud, making it easier to consume content on the go.
+                    Enabling voice assigtants to read articles aloud, making it easier to consume content on the go.
                     </p>
                 </div>
                 </div>

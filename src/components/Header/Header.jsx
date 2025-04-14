@@ -13,9 +13,9 @@ function Header() {
         { name: "Home", slug: "/", active: true },
         { name: "Login", slug: "/login", active: !authStatus },
         { name: "Signup", slug: "/signup", active: !authStatus },
-        { name: "All Posts", slug: "/all-posts", active: authStatus },
+        { name: "Feed", slug: "/all-posts", active: authStatus },
         { name: "Add Post", slug: "/add-post", active: authStatus },
-        {name: "BlogAI", slug:"/blogAI",active: authStatus ,isLogo:true }
+        {name: "BlogAI", slug:"/chronicle-ai",active: authStatus ,isLogo:true }
         
     ];
 
