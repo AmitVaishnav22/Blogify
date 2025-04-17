@@ -153,40 +153,61 @@ export default function Post() {
     } 
 
     const [isSpeaking, setIsSpeaking] = useState(false);
-    const [currentWordIndex, setCurrentWordIndex] = useState(null);
+    const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [words, setWords] = useState([]);
     const [isInAudio, setIsInAudio] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
+    const [speechRate, setSpeechRate] = useState(1);
+    const [showSpeedMenu, setShowSpeedMenu] = useState(false);
+
+
+
+    const stripHtmlTags = (html) => {
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        return div.textContent || div.innerText || '';
+    };
 
     const speakContent = () => {
         const plainText = stripHtmlTags(post?.content || '');
-        const synth = window.speechSynthesis;
-        const utterance = new SpeechSynthesisUtterance(plainText);
-        // Split into words for highlighting
         const wordArray = plainText.split(/\s+/);
         setWords(wordArray);
-    
+        setCurrentWordIndex(0);
+        speakContentFromIndex(0, speechRate, wordArray);
+    };
+
+    const speakContentFromIndex = (startIndex, rate, wordArray) => {
+        const synth = window.speechSynthesis;
+        synth.cancel();  
+      
+        const textToSpeak = wordArray.slice(startIndex).join(' ');
+        if (!textToSpeak) return;
+      
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
         utterance.lang = 'en-US';
-        utterance.rate = 1;
         utterance.pitch = 1;
-    
+        utterance.rate = rate;
+      
         utterance.onboundary = (event) => {
-            const spokenUntil = plainText.slice(0, event.charIndex);
-            const spokenWords = spokenUntil.trim().split(/\s+/);
-            const index = spokenWords.length - 1;
-            setCurrentWordIndex(index);
+          const spokenUntil = textToSpeak.slice(0, event.charIndex);
+          const spokenWords = spokenUntil.trim().split(/\s+/);
+          const index = startIndex + (spokenWords.length - 1);
+          setCurrentWordIndex(index);
         };
-    
+      
         utterance.onend = () => {
-            setIsSpeaking(false);
-            setCurrentWordIndex(null);
+          setIsSpeaking(false);
+          setIsPaused(false);
+          setIsInAudio(false);
+          setWords([])
+          setCurrentWordIndex(null);
         };
-    
+      
         synth.speak(utterance);
         setIsSpeaking(true);
         setIsInAudio(true);
-    };
-    
+      };
+
     const stopSpeaking = () => {
         window.speechSynthesis.cancel();
         setIsSpeaking(false);
@@ -207,13 +228,17 @@ export default function Post() {
             setIsPaused(true);
         }
     };
-    
-    
-    const stripHtmlTags = (html) => {
-        const div = document.createElement('div');
-        div.innerHTML = html;
-        return div.textContent || div.innerText || '';
-    };
+    const handleSpeedChange = (rate) => {
+        const synth = window.speechSynthesis;
+        synth.cancel();
+        setIsSpeaking(false);
+        setIsPaused(false);
+
+        setSpeechRate(rate);
+        if (words.length > 0 && currentWordIndex !== null) {
+            speakContentFromIndex(currentWordIndex, rate, words);
+          }
+        };
 
     const handleUserInfo = (userId) => {
         if (userId){
@@ -271,12 +296,45 @@ export default function Post() {
                         {isSpeaking ? '🛑 Stop' : '🎧 Listen to Content'}
                     </button>
                     {isSpeaking && (
+                    <>
                         <button
-                            onClick={handlePauseResume}
-                            className="px-4 py-1 bg-green-600 hover:bg-green-700 text-white rounded-r shadow transition"
+                        onClick={handlePauseResume}
+                        className="px-4 py-1 bg-green-600 hover:bg-green-700 text-white  shadow transition"
                         >
-                            {isPaused ? '▶️ Resume' : '⏸️ Pause'}
+                        {isPaused ? '▶️ Resume' : '⏸️ Pause'}
                         </button>
+
+                        {/* Speed Control Dropdown */}
+                        <div className="relative w-25">
+                        <button
+                            onClick={() => setShowSpeedMenu(!showSpeedMenu)}
+                            className="px-3 py-1  h-9 bg-gray-300 hover:bg-gray-400 text-black rounded-r shadow transition text-sm"
+                        >
+                            ⚙️ {speechRate}x
+                        </button>
+
+                        {showSpeedMenu && (
+                            <div className="absolute right-0 mt-1 bg-white border rounded shadow z-10">
+                            {[0.5, 1, 1.5, 2].map((rate) => (
+                                <button
+                                key={rate}
+                                onClick={() => {
+                                    handleSpeedChange(rate);
+                                    setShowSpeedMenu(false);
+                                }}
+                                className={`block w-full px-4 py-2 text-left text-sm ${
+                                    speechRate === rate
+                                    ? 'bg-purple-800 text-white'
+                                    : 'text-gray-800 hover:bg-gray-100'
+                                }`}
+                                >
+                                {rate}x
+                                </button>
+                            ))}
+                            </div>
+                        )}
+                        </div>
+                    </>
                     )}
                 
                 </div>
@@ -289,6 +347,14 @@ export default function Post() {
                             ? 'bg-yellow-500 text-black rounded px-1'
                             : ''
                         }`}
+                        onClick={() => {
+                            if (isSpeaking || isPaused) {
+                              window.speechSynthesis.cancel();
+                              setIsSpeaking(false);
+                              setIsPaused(false);
+                            }
+                            speakContentFromIndex(index, speechRate, words);
+                          }}
                         >
                         {word}{' '}
                         </span>
